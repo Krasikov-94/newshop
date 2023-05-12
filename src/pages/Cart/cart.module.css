@@ -1,0 +1,263 @@
+/* * {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+.wrapper {
+  display: flex;
+  justify-content: space-evenly;
+}
+.conditions {
+  top: 180px;
+  z-index: 1000;
+  position: sticky;
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 20px;
+  height: 100%;
+  margin: 10px;
+  height: 100%;
+}
+.conditions p {
+  font-size: 32px;
+  font-weight: 500;
+}
+.as {
+  height: 100%;
+  align-items: center;
+  justify-items: center;
+  justify-content: space-around;
+}
+.product_card {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  flex-flow: wrap;
+  height: 320px;
+  width: 400px;
+  margin: 10px;
+  background: #ffffff;
+  border-radius: 20px;
+  position: relative;
+}
+
+.badge {
+  position: absolute;
+  left: 0;
+  top: 20px;
+  text-transform: uppercase;
+  font-size: 13px;
+  font-weight: 700;
+  background: red;
+  color: #fff;
+  padding: 3px 10px;
+  border-bottom-right-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+.product_tumb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 280px;
+  background: #fff;
+  border-radius: 20px;
+}
+
+.product_tumb img {
+  max-width: 200px;
+  max-height: 200px;
+  border-radius: 20px;
+}
+
+.product_bottom_details div {
+  margin: 10px;
+}
+.product_price {
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  bottom: 0;
+}
+.product_price p {
+  font-size: 20px;
+  color: #000000;
+  font-weight: 500;
+  padding: 10px;
+  right: 0;
+}
+.product_price .price {
+  color: #fbb516;
+  font-size: 24px;
+}
+
+.stock {
+  opacity: 0.5;
+  font-size: 20px;
+}
+.product_details p {
+  display: flex;
+  font-size: 20px;
+}
+
+.product_links {
+  text-align: right;
+}
+
+.product_links a {
+  display: inline-block;
+  margin-left: 5px;
+  color: #e1e1e1;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+.product_links a:hover {
+  color: #fbb72c;
+}
+.name p {
+  height: 60px;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.btn {
+  width: 90px;
+  height: 40px;
+  border-radius: 10px;
+  background-color: #adb0e3;
+  color: black;
+  font-weight: 500;
+  font-size: 15px;
+  border: 1px #000000;
+  transition: box-shadow 200ms linear;
+  padding: 10px;
+}
+.btn:hover {
+  background-color: #f0eeff;
+  color: white;
+}
+.rat {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 10px;
+  color: #fbb516;
+  font-size: 24px;
+  font-weight: 700;
+} */
+
+.wrapper {
+  display: flex;
+  justify-content: space-evenly;
+  z-index: 2;
+}
+.product_card {
+  height: 270px;
+  width: 740px;
+  position: relative;
+  background: white;
+  padding: 30px;
+  margin: 20px;
+  border-radius: 20px;
+}
+
+.badge {
+  position: absolute;
+  left: 0;
+  text-transform: uppercase;
+  font-size: 13px;
+  font-weight: 700;
+  background: red;
+  color: #fff;
+  padding: 3px 10px;
+  border-bottom-right-radius: 20px;
+  border-top-right-radius: 20px;
+}
+.product_tumb img {
+  width: 70px;
+  height: 70px;
+  border-radius: 20px;
+}
+.conditions {
+  top: 200px;
+  z-index: 1000;
+  position: sticky;
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 20px;
+  height: 100%;
+  margin: 20px;
+  height: 100%;
+}
+.conditions p {
+  font-size: 32px;
+  font-weight: 500;
+}
+.product_bottom_details {
+  padding-top: 20px;
+  font-size: 19px;
+  display: flex;
+}
+.total {
+  display: flex;
+  justify-content: space-between;
+  margin: 30px 0px;
+}
+.total p {
+  font-size: 20px;
+}
+.name p {
+  font-size: 19px;
+}
+.as {
+  display: grid;
+  align-content: space-between;
+  justify-items: center;
+}
+
+.delete {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  background: #ff7474;
+}
+.deleteAll {
+  background: #ff7474;
+  width: 200px;
+  margin-top: 20px;
+}
+.product_links {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 180px;
+  display: flex;
+  background: white;
+  border-radius: 10px;
+  opacity: 0.6;
+  top: 10px;
+  right: 20px;
+  width: 200px;
+}
+.product_links button {
+  font-size: 33px;
+  color: black;
+  background: none;
+  border-radius: 0;
+  border: none;
+}
+.product_links p {
+  font-size: 33px;
+}
+.product_details {
+  width: max-content;
+}
+.card {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}

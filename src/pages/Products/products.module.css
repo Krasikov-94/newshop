@@ -1,0 +1,21 @@
+.btn {
+  width: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wrapper {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
+  margin: 20px;
+}
+.modal {
+  display: grid;
+  margin: 20px;
+}
+.sub {
+  width: 200px;
+}

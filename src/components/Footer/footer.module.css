@@ -1,0 +1,9 @@
+.wrapper {
+  background: white;
+  border-radius: 30px;
+  margin: 0px 50px 50px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}

@@ -1,0 +1,51 @@
+.body {
+  position: relative;
+  height: 70vh;
+  background-color: white;
+  padding: 30px;
+  margin: 50px;
+  border-radius: 30px;
+}
+.exit {
+  position: absolute;
+  width: 100px;
+  right: 0;
+  top: 0;
+  padding: 10px;
+  margin: 20px;
+  background-color: tomato;
+  color: white;
+  border-radius: 15px;
+}
+.img {
+  width: 200px;
+  height: 200px;
+}
+.general {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
+}
+.wrapper {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 40px;
+}
+.left {
+  font-size: 30px;
+}
+.right {
+  margin-left: 40px;
+}
+.btn {
+  width: 100px;
+  padding: 10px;
+  margin: 20px;
+  right: 400px;
+  background-color: greenyellow;
+  color: black;
+  border-radius: 15px;
+  height: 60px;
+}
