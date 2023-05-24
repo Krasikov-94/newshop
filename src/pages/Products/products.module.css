@@ -1,0 +1,28 @@
+.btn {
+  width: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wrapper {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
+  margin: 20px;
+  padding-bottom: 80px;
+}
+
+.sub {
+  width: 200px;
+}
+
+.inputModal {
+  width: 400px;
+  padding: 10px;
+}
+.inputModal div {
+  display: grid;
+  margin: 10px;
+}

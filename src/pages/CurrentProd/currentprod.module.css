@@ -1,0 +1,49 @@
+.body {
+  position: relative;
+  display: flex;
+  height: max-content;
+  background-color: white;
+  padding: 30px;
+  margin: 50px;
+  border-radius: 30px;
+}
+.exit {
+  position: absolute;
+  width: 120px;
+  right: 0;
+  top: 0;
+  padding: 10px;
+  margin: 20px;
+  background-color: rgb(255, 164, 148);
+  color: black;
+  border-radius: 15px;
+}
+.exit svg {
+  width: 30px;
+  height: 30px;
+}
+.img {
+  width: 200px;
+  height: 200px;
+}
+.general span {
+  font-size: 17px;
+}
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 40px;
+  width: 90vw;
+}
+.left {
+  font-size: 30px;
+}
+.center {
+  margin-left: 40px;
+}
+.btn {
+  display: grid;
+  justify-items: center;
+  padding-right: 40px;
+}
