@@ -5,9 +5,11 @@ export const HomePage = () => {
     <>
       <h1>Добро пожаловать в наш магазин</h1>
       <p>
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sapiente, tempora provident, optio
-        nobis minima maxime quidem esse possimus exercitationem harum facere reprehenderit tenetur
-        quam nostrum libero sunt mollitia error blanditiis.
+        Давайте общаться, искать партнеров, дарить скидки, помогать, просить помощи! Мы ЗА любой
+        формат продуктивного, полезного и честного нетворкинга с нами и нашими клиентами! Добро
+        пожаловать в наш клуб - пространство для общения, нетворкинга и конструктивного
+        взаимодействия! В комментариях к этому посту мы предлагаем вам знакомиться, рассказать о
+        себе. Кто вы, чем занимаетесь, увлекаетесь, что любите.
       </p>
     </>
   );

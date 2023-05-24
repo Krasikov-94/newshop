@@ -22,10 +22,6 @@ export const LoginPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const token = localStorage.getItem(TOKEN);
-    if (token) navigate('/user');
-  }, [navigate]);
   const auth = useSelector((state) => state.auth);
 
   useEffect(() => {
@@ -43,14 +39,13 @@ export const LoginPage = () => {
       return res;
     },
     onSuccess: () => {
-      navigate('/products');
+      dispatch(setAuth(true));
     },
   });
 
   const onSubmit = async (user) => {
     console.log(user);
     const response = await mutateAsync(user);
-    console.log(response);
     dispatch(setAuth(true));
     dispatch(
       setUpUser({
@@ -58,6 +53,7 @@ export const LoginPage = () => {
         token: response.token,
       }),
     );
+    navigate('/products');
   };
 
   const initialValues = {

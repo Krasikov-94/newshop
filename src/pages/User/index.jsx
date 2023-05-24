@@ -1,104 +1,69 @@
-import React, { useEffect, useState } from 'react';
-import { TOKEN, editAvatarApi, userApi } from '../../utils/constants';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import style from './user.module.css';
-import axios from 'axios';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { PacmanLoader } from 'react-spinners';
-import { Formik, Field, Form } from 'formik';
+import { useDispatch } from 'react-redux';
+import { clearUser } from '../../redux/slices/userSlices';
+import { useAuth } from '../../hooks/useAuth';
+import { toast } from 'react-toastify';
+import { editPhoto, getUser } from '../../api/api';
+import { EditPhotos } from '../../components/EditPhotos';
 
 export const User = () => {
   const [activeAvatar, setActiveAvatar] = useState(false);
 
+  const { token } = useAuth();
+
+  const dispatch = useDispatch();
+
   const navigate = useNavigate();
 
-  const token = localStorage.getItem(TOKEN);
-  useEffect(() => {
-    if (!token) navigate('/login');
-  }, [navigate, token, activeAvatar]);
-
-  const getUser = async () => {
-    const response = await axios.get(userApi, {
-      headers: {
-        Authorization: 'Bearer ' + token,
-      },
-    });
-    return response.data;
-  };
-
-  const user = useQuery({
-    queryKey: ['user'],
-    queryFn: getUser,
-  }).data;
-
-  const editAvatarFunc = () => {
-    setActiveAvatar(true);
-  };
-
-  const { mutateAsync: editAvatar } = useMutation({
-    mutationKey: 'avatar',
-    mutationFn: async (avatar) => {
-      const res = await axios.patch(editAvatarApi, avatar, {
-        headers: {
-          Authorization: 'Bearer ' + token,
-        },
-      });
-      return res;
-    },
-    onSuccess: () => {
-      navigate('/user');
+  const { data } = useQuery({
+    queryKey: ['user', activeAvatar],
+    queryFn: () => {
+      return getUser(token);
     },
   });
 
-  const onSubmit = async (avatar) => {
-    console.log(avatar);
-    const response = await editAvatar(avatar);
-    console.log(response);
-  };
+  const { mutateAsync: editAvatar } = useMutation({
+    mutationKey: 'avatar',
+    mutationFn: (avatar) => {
+      return editPhoto(avatar, token);
+    },
+    onSuccess: () => {
+      toast.success('Аватар успешно изменен');
+    },
+  });
 
+  const onSubmitAvatar = async (avatar) => {
+    await editAvatar(avatar);
+  };
   const exitBtn = () => {
-    localStorage.clear();
+    dispatch(clearUser());
     navigate('/login');
   };
-  console.log(activeAvatar);
 
   return (
     <>
       <div className={style.wrapper}>
         <p className={style.p}>Личный кабинет</p>
-        {user ? (
+        {data ? (
           <div className={style.content}>
             <div className={style.body}>
-              <h1>{user.about}</h1>
-              <button className={style.btn}>Редактировать</button>
-              <p>Ваше имя: {user.name}</p>
-              <button className={style.btn}>Редактировать</button>
-              <p>Ваша группа: {user.group}</p>
-              <p>Ваша почта: {user.email}</p>
-              <p>Ваш id: {user._id}</p>
-              <p>версия: {user.__v}</p>
+              <h1>{data.data.about}</h1>
+              <p>Ваше имя: {data.data.name}</p>
+              <p>Ваша группа: {data.data.group}</p>
+              <p>Ваша почта: {data.data.email}</p>
+              <p>Ваш id: {data.data._id}</p>
+              <p>версия: {data.data.__v}</p>
             </div>
             <div>
-              <img className={style.img} src={user.avatar} alt="dasd" />
+              <img className={style.img} src={data.data.avatar} alt="dasd" />
               {activeAvatar ? (
-                <>
-                  <Formik
-                    initialValues={{
-                      avatar: '',
-                    }}
-                    onSubmit={onSubmit}>
-                    <Form className={style.form}>
-                      <label htmlFor="avatar">Ссылка на картинку</label>
-                      <Field id="avatar" name="avatar" className={style.form_input} />
-                      <button type="submit">Установить</button>
-                    </Form>
-                  </Formik>
-                  <button className={style.btn} onClick={() => setActiveAvatar(false)}>
-                    Отменить
-                  </button>
-                </>
+                <EditPhotos onSubmit={onSubmitAvatar} setActiveAvatar={setActiveAvatar} />
               ) : (
-                <button className={style.btn} onClick={() => editAvatarFunc()}>
+                <button className={style.btn} onClick={() => setActiveAvatar(true)}>
                   Редактировать
                 </button>
               )}

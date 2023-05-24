@@ -4,12 +4,20 @@ import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import style from './currentprod.module.css';
 import { TOKEN, apiOneProd } from '../../utils/constants';
-import { useDispatch, useSelector } from 'react-redux';
-import { addProduct } from '../../redux/slices/cartSlices';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../../redux/slices/cartSlices';
+import { toast } from 'react-toastify';
+import { BsHeart } from 'react-icons/bs';
+import 'react-toastify/dist/ReactToastify.css';
+import { addFavorites } from '../../redux/slices/favoritesSlices';
+import { TiArrowBack } from 'react-icons/ti';
+import { Button } from '@mui/material';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 export const CurrentProd = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem(TOKEN);
+
   useEffect(() => {
     if (!token) navigate('/signin');
   }, [navigate, token]);
@@ -17,10 +25,9 @@ export const CurrentProd = () => {
   const dispatch = useDispatch();
 
   const { currentProd } = useParams();
-  // console.log(currentProd);
 
   const { data: oneProd } = useQuery({
-    queryKey: ['oneProd'],
+    queryKey: ['oneProd', token, currentProd],
     queryFn: async function oneProd() {
       try {
         const response = await axios.get(`${apiOneProd}${currentProd}`, {
@@ -28,7 +35,6 @@ export const CurrentProd = () => {
             Authorization: 'Bearer ' + token,
           },
         });
-        // console.log(response.data);
         return response.data;
       } catch (error) {
         console.error(error);
@@ -36,16 +42,30 @@ export const CurrentProd = () => {
     },
   });
 
-  const cartProduct = () => {
-    const { _id, stock } = oneProd;
-    dispatch(addProduct({ _id, stock, quantity: 0 }));
+  let totalPrice = null;
+  if (oneProd) {
+    totalPrice = oneProd.discount
+      ? oneProd.price - (oneProd.price * oneProd.discount) / 100
+      : oneProd.price;
+  }
+
+  const cartProduct = (event) => {
+    event.stopPropagation();
+    const prod_id = oneProd._id;
+    dispatch(addToCart({ prod_id, totalPrice }));
+    toast.success('Товар добавлен в корзину');
   };
 
+  const favoritesProd = (event) => {
+    event.stopPropagation();
+    dispatch(addFavorites(oneProd._id));
+    toast.success('Товар добавлен в избранное');
+  };
   return (
     <>
       <div className={style.body}>
         <button className={style.exit} onClick={() => navigate(-1)}>
-          Назад
+          <TiArrowBack />
         </button>
         {oneProd ? (
           <>
@@ -56,16 +76,30 @@ export const CurrentProd = () => {
                   <p>Вес : {oneProd.wight}.</p>
                   <p>Цена : {oneProd.price} рублей</p>
                   <p>Скидка : {oneProd.discount}%</p>
-                  <span>Описание : {oneProd.description}</span>
                 </div>
-                <div className={style.right}>
+                <div className={style.center}>
                   <img className={style.img} src={oneProd.pictures} alt={oneProd.name} />
                 </div>
-                <button className={style.btn} onClick={() => cartProduct()}>
-                  Купить
-                </button>
-                <button className={style.btn}>В избранное</button>
+                <div className={style.btn}>
+                  <Button
+                    style={{ padding: '10px', margin: '20px' }}
+                    size="small"
+                    variant="contained"
+                    endIcon={<AddShoppingCartIcon />}
+                    onClick={(event) => cartProduct(event)}>
+                    Купить
+                  </Button>
+                  <Button
+                    style={{ padding: '10px' }}
+                    size="small"
+                    variant="contained"
+                    endIcon={<BsHeart />}
+                    onClick={(event) => favoritesProd(event)}>
+                    В избранное
+                  </Button>
+                </div>
               </div>
+              <span>Описание : {oneProd.description}</span>
             </div>
           </>
         ) : (

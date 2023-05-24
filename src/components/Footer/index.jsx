@@ -11,7 +11,7 @@ export const Footer = () => {
   return (
     <>
       <div className={style.wrapper}>
-        <div>
+        <div className={style.logo}>
           <FontAwesomeIcon icon={faPaw} />
           <h1>DogFood</h1>
         </div>

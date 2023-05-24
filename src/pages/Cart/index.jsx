@@ -1,38 +1,39 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styles from './cart.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  clearCart,
-  decreaseTheAmountOfProduct,
-  deleteCart,
-  deleteSelectedItems,
-  increaseTheAmountOfProduct,
-} from '../../redux/slices/cartSlices';
+import { clearCart, deleteCart, deleteSelectCard } from '../../redux/slices/cartSlices';
 import { useQuery } from '@tanstack/react-query';
-import { getProductsByIds } from '../../api/api';
+import { fetchCartProducts } from '../../api/api';
 import { PacmanLoader } from 'react-spinners';
-import { TOKEN } from '../../utils/constants';
+import { useAuth } from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
+import { CardForCart } from '../../components/CardForCart';
 
 export const Cart = () => {
-  const dispatch = useDispatch();
+  const { token } = useAuth();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const cart = useSelector((state) => state.cart);
 
-  const [count, setCount] = useState(
-    cart.reduce((accumulator, currentValue) => accumulator + currentValue.quantity, 0),
-  );
-
-  const [checked, addChecked] = useState([]);
-
-  useEffect(() => {
-    const token = localStorage.getItem(TOKEN);
-    if (!token) navigate('/login');
-  }, [navigate]);
-
   const { data, isLoading } = useQuery({
-    queryKey: ['cart'],
-    queryFn: () => getProductsByIds(cart.map((product) => product._id)),
+    queryKey: ['cart', cart.length],
+    queryFn: async () => {
+      const responce = await fetchCartProducts(token, cart);
+
+      return responce
+        .filter((el) => {
+          // проверка и удаление в случае, если товара с таким id не существует (был удален)
+          if (el.value.data?.err?.statusCode === 404) {
+            dispatch(deleteCart(el.value._id));
+          }
+          // фильтруем rejected статусы и fullfiled, но с ошибкой
+          return el.status !== 'rejected' && !el.value.data.err;
+        })
+        .map((el) => el.value.data);
+    },
+    initialData: [],
+    enabled: !!cart.length,
   });
 
   if (isLoading) {
@@ -40,124 +41,40 @@ export const Cart = () => {
   }
 
   const priceProd = data.map((el) => {
-    const totalPrice = el.value.discount
-      ? el.value.price - (el.value.price * el.value.discount) / 100
-      : el.value.price;
-    return totalPrice;
+    const prod = cart.find((pr) => pr._id === el._id);
+    const sumCartProd = prod.count * prod.totalPrice;
+    return sumCartProd;
   });
+  console.log(priceProd);
+
   const sumProd = priceProd.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
-
-  const deleteProd = (id) => {
-    dispatch(deleteCart(id));
-  };
-
-  const increase = (id) => {
-    dispatch(increaseTheAmountOfProduct(id));
-    setCount(count + 1);
-  };
-  const decrease = (id) => {
-    dispatch(decreaseTheAmountOfProduct(id));
-    setCount(count - 1);
-  };
-
-  const soldCheckbox = (event) => {
-    const chek = event.target.offsetParent;
-    if (event.target.checked) {
-      addChecked((oldArray) => [...oldArray, chek.dataset.id]);
-    }
-  };
-  console.log(checked);
   return (
     <>
       <div className={styles.wrapper}>
         <div className={styles.as}>
-          {data.length ? (
+          {data.length > 0 && (
             <>
-              <div>
+              <div className={styles.deleteBtn}>
                 <button
-                  onClick={() => dispatch(deleteSelectedItems(checked))}
+                  onClick={() => {
+                    dispatch(deleteSelectCard());
+                  }}
                   className={styles.deleteAll}>
-                  Delete selected items
+                  Удалить выбранные товары
                 </button>
                 <button onClick={() => dispatch(clearCart())} className={styles.deleteAll}>
-                  DELETE ALL
+                  Удалить все товары
                 </button>
               </div>
             </>
-          ) : (
-            ''
           )}
-          {data.length ? (
-            data.map((prod, index) => (
-              <>
-                <div className={styles.product_card} key={index} data-id={prod.value._id}>
-                  <input
-                    type="checkbox"
-                    className={styles.card}
-                    name="card"
-                    onChange={(event) => soldCheckbox(event)}
-                  />
-                  {prod.value.discount > 0 && (
-                    <div className={styles.badge}>{prod.value.discount}%</div>
-                  )}
-                  <div className={styles.product_tumb}>
-                    <img src={prod.value.pictures} alt="" />
-                  </div>
-                  <div className={styles.product_details}>
-                    <span className={styles.product_catagory}>{prod.value.wight}</span>
-                    <div className={styles.name}>
-                      <p>{prod.value.name}</p>
-                    </div>
-                    <div className={styles.product_bottom_details}>
-                      <div className={styles.product_price}>
-                        <p className={styles.price}>{prod.value.price} р.</p>
-                        <span>{prod.value.stock} шт. осталось</span>
-                      </div>
-                      <div className={styles.product_links}>
-                        {cart.map((el) => {
-                          if (el._id === prod.value._id) {
-                            if (el.quantity < el.stock && el.quantity) {
-                              return (
-                                <>
-                                  <button onClick={() => decrease(prod.value._id)}>-</button>
-                                  {el.quantity}
-                                  <button onClick={() => increase(prod.value._id)}>+</button>
-                                </>
-                              );
-                            } else if (!el.quantity) {
-                              return (
-                                <>
-                                  <button disabled onClick={() => decrease(prod.value._id)}>
-                                    -
-                                  </button>
-                                  {el.quantity}
-                                  <button onClick={() => increase(prod.value._id)}>+</button>
-                                </>
-                              );
-                            } else {
-                              return (
-                                <>
-                                  <button onClick={() => decrease(prod.value._id)}>-</button>
-                                  {el.quantity}
-                                  <button disabled onClick={() => increase(prod.value._id)}>
-                                    +
-                                  </button>
-                                </>
-                              );
-                            }
-                          }
-                        })}
-                      </div>
-                    </div>
-                  </div>
-                  <button onClick={() => deleteProd(prod.value._id)} className={styles.delete}>
-                    Убрать товар из корзины
-                  </button>
-                </div>
-              </>
-            ))
+          {data.length > 0 ? (
+            data.map((prod) => <CardForCart prod={prod} key={prod._id} />)
           ) : (
-            <p>Товары еще не добавлены в корзину...</p>
+            <p>
+              Товары еще не добавлены в корзину, перейти в
+              <button onClick={() => navigate('/products')}>каталог</button>
+            </p>
           )}
         </div>
         {data.length > 0 && (
@@ -166,7 +83,7 @@ export const Cart = () => {
             <hr />
             <p>Итого:</p>
             <div className={styles.total}>
-              <p>{count}шт.</p>
+              <p>{cart.length}шт.</p>
               <p>Цена:{sumProd}</p>
             </div>
             <button onClick={() => alert('Ура')}>Перейти к оформлению</button>

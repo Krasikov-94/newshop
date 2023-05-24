@@ -11,11 +11,11 @@
   z-index: 9;
 }
 .modal_content {
+  margin-top: 120px;
   position: relative;
   background-color: white;
-  height: 200px;
   border-radius: 8px;
-  padding: 8px;
+  padding: 10px;
 }
 .btn_close {
   width: 50px;

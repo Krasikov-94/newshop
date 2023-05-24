@@ -2,6 +2,7 @@ export const myInitialState = {
   user: {},
   filter: {
     search: '',
+    sorting: '',
   },
   products: null,
   auth: null,

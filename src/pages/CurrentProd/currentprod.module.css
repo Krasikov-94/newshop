@@ -1,6 +1,7 @@
 .body {
   position: relative;
-  height: 70vh;
+  display: flex;
+  height: max-content;
   background-color: white;
   padding: 30px;
   margin: 50px;
@@ -8,44 +9,41 @@
 }
 .exit {
   position: absolute;
-  width: 100px;
+  width: 120px;
   right: 0;
   top: 0;
   padding: 10px;
   margin: 20px;
-  background-color: tomato;
-  color: white;
+  background-color: rgb(255, 164, 148);
+  color: black;
   border-radius: 15px;
+}
+.exit svg {
+  width: 30px;
+  height: 30px;
 }
 .img {
   width: 200px;
   height: 200px;
 }
-.general {
-  display: grid;
-  justify-content: center;
-  align-items: center;
-  justify-items: center;
+.general span {
+  font-size: 17px;
 }
 .wrapper {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
-  padding: 40px;
+  padding-top: 40px;
+  width: 90vw;
 }
 .left {
   font-size: 30px;
 }
-.right {
+.center {
   margin-left: 40px;
 }
 .btn {
-  width: 100px;
-  padding: 10px;
-  margin: 20px;
-  right: 400px;
-  background-color: greenyellow;
-  color: black;
-  border-radius: 15px;
-  height: 60px;
+  display: grid;
+  justify-items: center;
+  padding-right: 40px;
 }

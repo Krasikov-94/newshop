@@ -9,10 +9,15 @@ import { FaShoppingBasket } from 'react-icons/fa';
 import { Search } from '../Search';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { useWindowWidth } from '../../hooks/useWindowWidth';
+import { WIDTH_MOBILE } from '../../utils/constants';
 
 export const Header = () => {
   const auth = useSelector((state) => state.auth);
   const cart = useSelector((state) => state.cart);
+  const favorites = useSelector((state) => state.favorites);
+
+  const windowWidth = useWindowWidth();
 
   return (
     <div className={style.header}>
@@ -22,7 +27,7 @@ export const Header = () => {
             <FontAwesomeIcon icon={faPaw} className={style.logo} />
           </NavLink>
         </nav>
-        <h1>DogFood</h1>
+        {windowWidth < WIDTH_MOBILE ? '' : <h1>DogFood</h1>}
       </div>
       {auth && (
         <>
@@ -32,10 +37,11 @@ export const Header = () => {
               <NavLink to="/user" className={({ isActive }) => (isActive ? style.active : '')}>
                 <BsFillPersonFill className={style.person} />
               </NavLink>
+              <span>{!!favorites.length && favorites.length}</span>
               <NavLink to="/favorites" className={({ isActive }) => (isActive ? style.active : '')}>
                 <BsFillChatSquareHeartFill className={style.heart} />
               </NavLink>
-              <span>{cart.length > 0 && cart.length}</span>
+              <span>{!!cart.length && cart.length}</span>
               <NavLink to="/cart">
                 <FaShoppingBasket className={style.shop} />
               </NavLink>

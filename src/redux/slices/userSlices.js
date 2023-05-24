@@ -8,11 +8,14 @@ export const userSlice = createSlice({
     setUpUser: (_, action) => {
       return action.payload;
     },
-    clearUser: () => myInitialState.user,
+    clearUser: () => {
+      localStorage.removeItem('reduxState');
+      return myInitialState.user;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setUpUser, cleanUser } = userSlice.actions;
+export const { setUpUser, clearUser } = userSlice.actions;
 
 export const userReducer = userSlice.reducer;

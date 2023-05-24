@@ -1,50 +1,41 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
-
 import style from './search.module.css';
 import { useDebounce } from '../../hooks/useDebounce';
 import { changeSearchValue } from '../../redux/slices/filterSlices';
 
 export const Search = () => {
+  const dispatch = useDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
-
-  const [searchValue, setsearchValue] = useState(() => {
+  const [searchValue, setSearchValue] = useState(() => {
     const firstSearch = searchParams.get('search');
     return firstSearch ? firstSearch : '';
   });
-  const dispatch = useDispatch();
 
-  const debounceValue = useDebounce(searchValue);
+  const debounceValue = useDebounce(searchValue, 500);
+
   useEffect(() => {
     dispatch(changeSearchValue(debounceValue));
   }, [debounceValue, dispatch]);
 
   const handleChange = (event) => {
-    const params = {};
-    searchParams.forEach((value, key) => {
-      params[key] = value;
-    });
-    setsearchValue(event.target.value);
+    const value = event.target.value;
+    setSearchValue(value);
 
-    if (event.target.value) {
-      return setSearchParams({
-        ...params,
-        search: event.target.value,
+    if (value) {
+      return setSearchParams((prev) => {
+        prev.set('search', value);
+        return prev;
       });
     }
 
-    delete params.search;
-
-    return setSearchParams(params);
-
-    // if (event.target.value)
-    //   return navigate({
-    //     pathname: '/products',
-    //     search: `search=${event.target.value}`,
-    //   });
-    // navigate('/products');
+    return setSearchParams((prev) => {
+      prev.delete('search');
+      return prev;
+    });
   };
+
   return (
     <div>
       <input

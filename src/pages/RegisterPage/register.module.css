@@ -1,9 +1,9 @@
 .wrapper {
   display: grid;
   align-items: center;
-  height: 60vh;
   align-content: space-evenly;
   justify-items: center;
+  padding: 50px;
 }
 
 .form_group {
@@ -21,7 +21,7 @@
 }
 button {
   width: 100%;
-  background-color: #7cc698;
+  background-color: #808080;
 }
 button {
   text-decoration: none;
@@ -32,7 +32,8 @@ button {
   transition: 0.3s background-color ease-out;
 }
 button:hover {
-  background-color: #006627;
+  color: black;
+  background-color: #80ffb1;
 }
 @media screen and (max-width: 768px) {
   .formik {

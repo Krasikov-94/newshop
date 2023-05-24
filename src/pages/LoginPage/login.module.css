@@ -2,7 +2,7 @@
   display: grid;
   justify-content: center;
   align-items: center;
-  height: 60vh;
+  padding: 50px;
 }
 
 .form_group {
@@ -18,7 +18,7 @@
   border-radius: 5px;
   border: 1px solid #999999;
 }
-button {
+/* button {
   width: 100%;
   background-color: #7cc698;
 }
@@ -32,7 +32,7 @@ button {
 }
 button:hover {
   background-color: #006627;
-}
+} */
 @media screen and (max-width: 768px) {
   .formik {
     max-width: 80%;

@@ -5,44 +5,68 @@ export const cartSlices = createSlice({
   name: 'counter',
   initialState: myInitialState.cart,
   reducers: {
-    addProduct: (state, action) => {
-      state.push(action.payload);
+    addToCart(state, action) {
+      const product = state.find((el) => el._id === action.payload.prod_id);
+      if (product) {
+        product.count++;
+        return;
+      }
+      state.push({
+        _id: action.payload.prod_id,
+        count: 1,
+        isSelected: true,
+        totalPrice: action.payload.totalPrice,
+      });
     },
     clearCart: () => myInitialState.cart,
     deleteCart: (state, action) => {
       return state.filter((el) => el._id !== action.payload);
     },
     increaseTheAmountOfProduct: (state, action) => {
-      state.forEach((el) => {
-        if (el._id === action.payload) {
-          return (el.quantity += 1);
-        }
-        return el;
-      });
+      const product = state.find((el) => el._id === action.payload);
+
+      if (product) {
+        product.count++;
+        return;
+      }
     },
     decreaseTheAmountOfProduct: (state, action) => {
-      state.forEach((el) => {
-        if (el._id === action.payload) {
-          return (el.quantity -= 1);
+      const product = state.find((el) => el._id === action.payload);
+
+      if (product) {
+        if (product.count > 1) {
+          product.count--;
+          return;
         }
-        return el;
-      });
+
+        return state.filter((product) => product._id !== action.payload);
+      }
     },
-    deleteSelectedItems: (state, action) => {
-      return state.filter((obj1) => {
-        return action.payload.find((obj2) => obj1._id !== obj2);
-      });
+    selectOne: (state, action) => {
+      const product = state.find((el) => el._id === action.payload.id);
+
+      if (product) {
+        if (action.payload.isChecked === true) {
+          product.isSelected = true;
+        } else {
+          product.isSelected = false;
+        }
+      }
+    },
+    deleteSelectCard: (state) => {
+      return state.filter((el) => el.isSelected !== true);
     },
   },
 });
 
 export const {
-  addProduct,
+  addToCart,
   clearCart,
   deleteCart,
   increaseTheAmountOfProduct,
   decreaseTheAmountOfProduct,
-  deleteSelectedItems,
+  selectOne,
+  deleteSelectCard,
 } = cartSlices.actions;
 
 export const cartReducer = cartSlices.reducer;
