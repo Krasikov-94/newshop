@@ -6,8 +6,8 @@ import style from './footer.module.css';
 export const Footer = () => {
   const MockOneColumn = ['Каталог', 'Акция', 'Новости', 'Отзывы'];
   const MockTwoColumn = ['Оплата и доставка', 'Часто спрашивают', 'Обратная связь', 'Контакты'];
-
   const MockThreeColumn = ['Мы на связи', 'trololo@gmail.com', 'LOGO', '+7999000000'];
+
   return (
     <>
       <div className={style.wrapper}>

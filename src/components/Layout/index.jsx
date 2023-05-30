@@ -3,19 +3,14 @@ import { Header } from '../Header';
 import { Footer } from '../Footer';
 import { Outlet } from 'react-router-dom';
 import style from './layout.module.css';
-import { useSelector } from 'react-redux';
-import { HomePage } from '../../pages/HomePage';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export const Layout = () => {
-  const auth = useSelector((state) => state.auth);
-
   return (
     <>
       <div className={style.wrapper}>
         <Header className={style.header} />
-        {!auth && <HomePage />}
         <Outlet className={style.outlet} />
         <Footer className={style.footer} />
         <ToastContainer
