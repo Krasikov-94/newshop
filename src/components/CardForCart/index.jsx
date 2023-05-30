@@ -12,9 +12,6 @@ export const CardForCart = ({ prod }) => {
   const dispatch = useDispatch();
 
   const cart = useSelector((state) => state.cart);
-  const [count, setCount] = useState(
-    cart.reduce((accumulator, currentValue) => accumulator + currentValue.quantity, 0),
-  );
 
   const cartProd = cart.find((el) => el._id === prod._id);
 
@@ -22,7 +19,6 @@ export const CardForCart = ({ prod }) => {
     const chek = event.target.offsetParent;
     const isChecked = event.target.checked;
     const id = chek.dataset.id;
-
     dispatch(selectOne({ id, isChecked }));
   };
 
@@ -32,11 +28,9 @@ export const CardForCart = ({ prod }) => {
 
   const increase = (id) => {
     dispatch(increaseTheAmountOfProduct(id));
-    setCount(count + 1);
   };
   const decrease = (id) => {
     dispatch(decreaseTheAmountOfProduct(id));
-    setCount(count - 1);
   };
 
   const check = cart.find((el) => el._id === prod._id);
@@ -48,7 +42,7 @@ export const CardForCart = ({ prod }) => {
           type="checkbox"
           className={styles.card}
           name="card"
-          checked={check.isSelected}
+          checked={check ? check.isSelected : ''}
           onChange={(event) => soldCheckbox(event)}
         />
         {prod.discount > 0 && <div className={styles.badge}>{prod.discount}%</div>}
@@ -74,9 +68,7 @@ export const CardForCart = ({ prod }) => {
               </button>
               <p>
                 {cart.map((el) => {
-                  if (el._id === prod._id) {
-                    return el.count;
-                  }
+                  if (el._id === prod._id) return el.count;
                 })}
               </p>
               <button

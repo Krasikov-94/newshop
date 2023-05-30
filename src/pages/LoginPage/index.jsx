@@ -30,7 +30,6 @@ export const LoginPage = () => {
   }, [auth, dispatch, navigate]);
 
   const { mutateAsync } = useMutation({
-    mutationKey: 'user',
     mutationFn: async (user) => {
       const res = await ky
         .post(logIn, { json: { email: user.email, password: user.password } })
@@ -44,7 +43,6 @@ export const LoginPage = () => {
   });
 
   const onSubmit = async (user) => {
-    console.log(user);
     const response = await mutateAsync(user);
     dispatch(setAuth(true));
     dispatch(

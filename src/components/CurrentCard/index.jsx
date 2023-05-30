@@ -17,24 +17,16 @@ export const CurrentCard = ({ prod }) => {
   const totalPrice = prod.discount ? prod.price - (prod.price * prod.discount) / 100 : prod.price;
 
   //для сортировки по среднему рейтингу
-  let avgRating = [];
-  prod.reviews.map((p) => {
-    return avgRating.push(p.rating);
-  });
+
+  const avgRating = prod.reviews.map((p) => p.rating);
+
   const ratSum = avgRating.reduce((acc, cur) => acc + cur, 0);
-  const ratLength = avgRating.length;
-  const rat = Math.round(ratSum / ratLength);
-  avgRating = rat ? rat : 0;
+
+  const rat = Math.round(ratSum / avgRating.length);
 
   const addCart = (event) => {
-    event.stopPropagation();
-    const prod_id = prod._id;
-    dispatch(addToCart({ prod_id, totalPrice }));
+    dispatch(addToCart({ prod_id: prod._id, totalPrice }));
     toast.success('Товар добавлен в корзину');
-  };
-
-  const currentProduct = () => {
-    navigate(`/products/${prod._id}`);
   };
 
   return (
@@ -42,7 +34,7 @@ export const CurrentCard = ({ prod }) => {
       <div className={style.product_card}>
         {prod.discount > 0 && <div className={style.badge}>{prod.discount}%</div>}
         <div className={style.product_tumb}>
-          <img src={prod.pictures} alt="" onClick={() => currentProduct()} />
+          <img src={prod.pictures} alt="" onClick={() => navigate(`/products/${prod._id}`)} />
           <div className={style.rat}>
             <Star rat={rat} />
           </div>

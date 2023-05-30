@@ -32,7 +32,7 @@ export const Menu = ({ handleOpenModal }) => {
         return 'SORTING_PRICE_LOW';
       } else if (text.toLowerCase() === 'по скидке') {
         return 'SORTING_SALE';
-      } else if (text.toLowerCase() === 'по рейтингу') {
+      } else if (text.toLowerCase() === 'по кол-ву лайков') {
         return 'SORTING_RATING';
       }
     };

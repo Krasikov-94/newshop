@@ -45,32 +45,30 @@ export const Favorites = () => {
           data.map((el) => {
             const id = el._id;
             return (
-              <>
-                <div className={styles.product_card}>
-                  {el.discount > 0 && <div className={styles.badge}>{el.discount}%</div>}
-                  <div className={styles.product_tumb}>
-                    <img src={el.pictures} alt="" />
-                    <div className={styles.rat}></div>
-                  </div>
-                  <div className={styles.product_details}>
-                    <span className={styles.product_catagory}>{el.wight}</span>
-                    <div className={styles.name}>
-                      <p>{el.name}</p>
-                    </div>
-                    <div className={styles.product_bottom_details}>
-                      <div className={styles.product_price}>{el.price} р.</div>
-                      <div className={styles.product_links}></div>
-                    </div>
-                  </div>
-                  <button
-                    className={styles.deleteFav}
-                    onClick={(event) => {
-                      delFav(event, id);
-                    }}>
-                    <CancelIcon />
-                  </button>
+              <div className={styles.product_card}>
+                {el.discount > 0 && <div className={styles.badge}>{el.discount}%</div>}
+                <div className={styles.product_tumb}>
+                  <img src={el.pictures} alt="" />
+                  <div className={styles.rat}></div>
                 </div>
-              </>
+                <div className={styles.product_details}>
+                  <span className={styles.product_catagory}>{el.wight}</span>
+                  <div className={styles.name}>
+                    <p>{el.name}</p>
+                  </div>
+                  <div className={styles.product_bottom_details}>
+                    <div className={styles.product_price}>{el.price} р.</div>
+                    <div className={styles.product_links}></div>
+                  </div>
+                </div>
+                <button
+                  className={styles.deleteFav}
+                  onClick={(event) => {
+                    delFav(event, id);
+                  }}>
+                  <CancelIcon />
+                </button>
+              </div>
             );
           })
         ) : (

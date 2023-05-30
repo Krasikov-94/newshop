@@ -7,12 +7,17 @@ import { Products } from '../pages/Products';
 import { CurrentProd } from '../pages/CurrentProd';
 import { Favorites } from '../pages/Favorites';
 import { Cart } from '../pages/Cart';
+import { HomePage } from '../pages/HomePage';
 
 export const router = createBrowserRouter([
   {
     path: '/',
     element: <Layout />,
     children: [
+      {
+        index: true,
+        element: <HomePage />,
+      },
       {
         path: 'login',
         element: <LoginPage />,

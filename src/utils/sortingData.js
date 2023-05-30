@@ -6,19 +6,19 @@ import {
   SORTING_SALE,
 } from './constants';
 
+const priceCalc = (price, discount) => {
+  return price - (price * discount) / 100;
+};
+
 export const sortingData = (data, sortingType) => {
   switch (sortingType) {
     case SORTING_PRICE_HIGH:
       return [...data].sort(
-        (a, b) =>
-          (b.discount ? b.price - (b.price * b.discount) / 100 : b.price) -
-          (a.discount ? a.price - (a.price * a.discount) / 100 : a.price),
+        (a, b) => priceCalc(b.price, b.discount) - priceCalc(a.price, a.discount),
       );
     case SORTING_PRICE_LOW:
       return [...data].sort(
-        (a, b) =>
-          (a.discount ? a.price - (a.price * a.discount) / 100 : a.price) -
-          (b.discount ? b.price - (b.price * b.discount) / 100 : b.price),
+        (a, b) => priceCalc(a.price, a.discount) - priceCalc(b.price, b.discount),
       );
     case SORTING_SALE:
       return [...data].sort((a, b) => b.discount - a.discount);

@@ -1,18 +1,16 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { CurrentCard } from '../CurrentCard';
 import style from './cardlist.module.css';
 import { useQuery } from '@tanstack/react-query';
 import { useAuth } from '../../hooks/useAuth';
 import { fetchProductsWithSearch } from '../../api/api';
 import { PacmanLoader } from 'react-spinners';
-import { getProd } from '../../redux/slices/productSlice';
 import { sortingData } from '../../utils/sortingData';
 
 export const CardList = () => {
   const { token } = useAuth();
   const { search } = useSelector((state) => state.filter);
-  const dispatch = useDispatch();
   const { sorting } = useSelector((state) => state.filter);
 
   const { data } = useQuery({
@@ -20,11 +18,7 @@ export const CardList = () => {
     queryFn: async () => {
       const res = await fetchProductsWithSearch(token, search);
       const responce = await res.json();
-
-      if (res.ok) {
-        dispatch(getProd(responce));
-        return responce;
-      }
+      return responce;
     },
     initialData: [],
   });

@@ -27,9 +27,9 @@ export const Header = () => {
             <FontAwesomeIcon icon={faPaw} className={style.logo} />
           </NavLink>
         </nav>
-        {windowWidth < WIDTH_MOBILE ? '' : <h1>DogFood</h1>}
+        {windowWidth < WIDTH_MOBILE ? '' : <p>DogFood</p>}
       </div>
-      {auth && (
+      {auth ? (
         <>
           <Search />
           <div className={style.heartShopDog}>
@@ -48,13 +48,10 @@ export const Header = () => {
             </nav>
           </div>
         </>
-      )}
-      {!auth && (
-        <>
-          <Link className={style.btn} to="/login">
-            Войти
-          </Link>
-        </>
+      ) : (
+        <Link className={style.btn} to="/login">
+          Войти
+        </Link>
       )}
     </div>
   );
