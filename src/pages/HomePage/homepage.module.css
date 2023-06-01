@@ -1,0 +1,13 @@
+.general {
+  display: grid;
+  justify-items: center;
+  padding: 40px;
+}
+.general h1 {
+  padding-bottom: 40px;
+}
+.general img {
+  width: 650px;
+  height: 400px;
+  border-radius: 50%;
+}

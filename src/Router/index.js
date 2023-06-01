@@ -1,6 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { LoginPage } from '../pages/LoginPage';
-import { RegisterPage } from '../pages/RegisterPage';
+
 import { Layout } from '../components/Layout';
 import { User } from '../pages/User';
 import { Products } from '../pages/Products';
@@ -8,6 +7,8 @@ import { CurrentProd } from '../pages/CurrentProd';
 import { Favorites } from '../pages/Favorites';
 import { Cart } from '../pages/Cart';
 import { HomePage } from '../pages/HomePage';
+import { LoginPage } from '../pages/Login';
+import { RegisterPage } from '../pages/Register';
 
 export const router = createBrowserRouter([
   {

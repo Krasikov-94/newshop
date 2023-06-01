@@ -46,35 +46,37 @@ export const User = () => {
 
   return (
     <>
-      <div className={style.wrapper}>
-        <p className={style.p}>Личный кабинет</p>
-        {data ? (
-          <div className={style.content}>
-            <div className={style.body}>
-              <h1>{data.data.about}</h1>
-              <p>Ваше имя: {data.data.name}</p>
-              <p>Ваша группа: {data.data.group}</p>
-              <p>Ваша почта: {data.data.email}</p>
-              <p>Ваш id: {data.data._id}</p>
-              <p>версия: {data.data.__v}</p>
+      <div className={style.general}>
+        <div className={style.wrapper}>
+          <p className={style.p}>Личный кабинет</p>
+          {data ? (
+            <div className={style.content}>
+              <div className={style.body}>
+                <h1>{data.data.about}</h1>
+                <p>Ваше имя: {data.data.name}</p>
+                <p>Ваша группа: {data.data.group}</p>
+                <p>Ваша почта: {data.data.email}</p>
+                <p>Ваш id: {data.data._id}</p>
+                <p>версия: {data.data.__v}</p>
+              </div>
+              <div>
+                <img className={style.img} src={data.data.avatar} alt="dasd" />
+                {activeAvatar ? (
+                  <EditPhotos onSubmit={onSubmitAvatar} setActiveAvatar={setActiveAvatar} />
+                ) : (
+                  <button className={style.btn} onClick={() => setActiveAvatar(true)}>
+                    Редактировать
+                  </button>
+                )}
+              </div>
             </div>
-            <div>
-              <img className={style.img} src={data.data.avatar} alt="dasd" />
-              {activeAvatar ? (
-                <EditPhotos onSubmit={onSubmitAvatar} setActiveAvatar={setActiveAvatar} />
-              ) : (
-                <button className={style.btn} onClick={() => setActiveAvatar(true)}>
-                  Редактировать
-                </button>
-              )}
-            </div>
-          </div>
-        ) : (
-          <PacmanLoader color="#000000" size={66} speedMultiplier={5} />
-        )}
-        <button className={style.exit} onClick={exitBtn}>
-          Выйти
-        </button>
+          ) : (
+            <PacmanLoader color="#000000" size={66} speedMultiplier={5} />
+          )}
+          <button className={style.exit} onClick={exitBtn}>
+            Выйти
+          </button>
+        </div>
       </div>
     </>
   );
